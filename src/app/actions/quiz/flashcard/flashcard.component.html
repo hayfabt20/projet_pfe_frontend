@@ -1,0 +1,122 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+          <i class="menu-icon"></i>
+        </button>
+        <i  class="fas fa-clone"></i>
+        <div class="quiz-title">Flashcard Quiz</div>
+        <div class="language-indicator">
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button" title="Statistiques">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+          <i class="fas fa-book-open"></i>
+        </button>
+        <button class="icon-button" title="Score">
+          <i class="fas fa-fire"></i>
+        </button>
+        <button class="icon-button" title="Profil">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+
+
+      <!-- Compteur de progression -->
+      <div class="progress-counter">
+        {{ currentIndex + 1 }}/{{ words.length }} cards
+      </div>
+
+      <!-- Chronomètre -->
+      <div class="timer" *ngIf="!reviewMode">
+        {{ formatTime(timer) }}
+      </div>
+
+      <div class="container" *ngIf="!reviewMode">
+        <div class="flashcard" [ngClass]="{ 'flip': isFlipped, 'correct': isCorrect, 'incorrect': isIncorrect }"
+             (click)="flipCard()">
+          <div class="front">
+            <p>{{ words[currentIndex].english }}</p>
+          </div>
+          <div class="back">
+            <p>{{ words[currentIndex].german }}</p>
+          </div>
+        </div>
+
+        <div class="InputContainer">
+          <input placeholder="Your Answer" id="input" class="input" name="text" type="text" [(ngModel)]="userAnswer"
+                 (focus)="startTimer()" (keyup.enter)="checkAnswer()">
+        </div>
+
+        <button class="btn" (click)="checkAnswer()">Validate</button>
+
+
+      </div>
+      <div class="navigation-button">
+        <button (click)="previousCard()" [disabled]="currentIndex === 0"><span class="main-text">Previous</span></button>
+        <button (click)="nextCard()" [disabled]="currentIndex === words.length - 1"><span class="main-text">Next</span></button>
+      </div>
+      <!-- Mode Révision -->
+      <div class="review-container" *ngIf="reviewMode">
+        <h4>Mode Révision</h4>
+        <div class="review-list">
+          <div class="review-card" *ngFor="let card of reviewedCards; let i = index"
+               [ngClass]="{'correct-review': card.wasCorrect, 'incorrect-review': !card.wasCorrect}">
+            <div class="review-index">{{ i + 1 }}</div>
+            <div class="review-content">
+              <div class="review-word">{{ card.word.english }} → {{ card.word.german }}</div>
+              <div class="review-result">
+                {{ card.wasCorrect ? '✓ Correct' : '✗ Incorrect' }}
+                <span class="review-time">{{ formatTime(card.timeSpent) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton pour basculer entre les modes -->
+
+    </div>
+  </div>
+</div>

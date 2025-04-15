@@ -1,0 +1,66 @@
+<div class="home-page">
+  <div class="quiz-container">
+    <h1 class="quiz-title">Choose a Quiz Mode</h1>
+
+    <div class="quiz-grid">
+      <!-- Première ligne -->
+      <div class="quiz-card">
+        <h2><i class="fas fa-layer-group icon"></i> Flashcard</h2>
+        <p>Review vocabulary with interactive flashcards</p>
+        <button (click)="navigateToFlashcard()" class="quiz-button">Click to start</button>
+      </div>
+
+      <div class="quiz-card">
+        <h2><i class="fas fa-stopwatch icon"></i> Challenge</h2>
+        <p>Test your knowledge with timed challenges</p>
+        <button  (click)="navigateToChallenge()"class="quiz-button">Click to start</button>
+      </div>
+
+      <!-- Séparateur -->
+      <div class="divider"></div>
+
+      <!-- Deuxième ligne -->
+      <div class="quiz-card">
+        <h2><i class="fas fa-ellipsis-h icon"></i> Sentence with Gap</h2>
+        <p>Complete sentences by filling in the missing words</p>
+        <button (click)="navigateToSentence()"class="quiz-button">Click to start</button>
+      </div>
+
+      <div class="quiz-card">
+        <h2><i class="fas fa-search icon"></i> Word Hunt</h2>
+        <p>Find hidden words in a puzzle grid</p>
+        <button  (click)="navigateToWord()" class="quiz-button">Click to start</button>
+      </div>
+    </div>
+
+    <!-- Deuxième partie -->
+    <div class="quiz-grid">
+      <div class="quiz-card version-card">
+        <h2><i class="fas fa-headphones icon"></i> Dictation</h2>
+        <p>Listen and write what you hear</p>
+        <button (click)="navigateToDictation()" class="quiz-button">Click to start</button>
+      </div>
+
+      <div class="quiz-card version-card">
+        <h2><i class="fas fa-language icon"></i> Conjugation</h2>
+        <p>Practice verb conjugations in different tenses</p>
+        <button  (click)="navigateToConjugation()"class="quiz-button">Click to start</button>
+      </div>
+
+      <!-- Séparateur -->
+      <div class="divider"></div>
+
+      <div class="quiz-card">
+        <h2><i class="fas fa-exchange-alt"></i> Synonym-Antonym</h2>
+        <p>Explore word relationships </p>
+        <button (click)="navigateToSynonymAntonym()" class="quiz-button">Click to start</button>
+      </div>
+
+      <div class="quiz-card">
+        <h2><i class="fas fa-star icon"></i> Custom Quiz</h2>
+        <p>Create your own personalized quiz</p>
+        <button  (click)="navigateToCustom()" class="quiz-button">Click to start</button>
+      </div>
+    </div>
+  </div>
+</div>

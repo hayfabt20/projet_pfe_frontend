@@ -1,0 +1,57 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li>
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main-content">
+    <div class="feedback-container">
+      <div class="feedback-card">
+        <h2 class="feedback-title">Feedback</h2>
+        <textarea
+          class="feedback-input"
+          placeholder="What's Your Feedback?"
+          [(ngModel)]="feedbackText">
+        </textarea>
+        <div class="feedback-actions">
+          <button class="feedback-btn happy" (click)="selectMood('happy')">
+            <i class="fas fa-smile"></i>
+          </button>
+          <button class="feedback-btn sad" (click)="selectMood('sad')">
+            <i class="fas fa-frown"></i>
+          </button>
+          <button class="feedback-btn send" (click)="submitFeedback()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

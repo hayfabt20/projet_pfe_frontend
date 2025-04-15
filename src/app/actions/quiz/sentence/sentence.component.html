@@ -1,0 +1,160 @@
+<!-- sentence.component.html -->
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+          <i class="menu-icon"></i>
+        </button>
+        <i class="fas fa-clone"></i>
+        <div class="quiz-title">Sentence Quiz</div>
+        <div class="language-indicator">DE-EN</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button" title="Statistiques">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+          <i class="fas fa-book-open"></i>
+        </button>
+        <div class="score-display" title="Score">
+          {{ correctAnswers }}/{{ totalQuestions }}
+        </div>
+        <button class="icon-button" title="Profil">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Quiz Content -->
+    <div class="content">
+      <!-- Quiz Mode -->
+      <div class="quiz-container" *ngIf="!reviewMode">
+        <div class="quiz-card" [class.correct]="isCorrect === true" [class.incorrect]="isCorrect === false">
+          <div class="timer-container">
+            <div class="timer">{{ formatTime(timer) }}</div>
+            <button class="start-button" *ngIf="!quizStarted" (click)="startQuiz()">Start</button>
+          </div>
+
+          <div class="question-container" *ngIf="currentQuestion">
+            <div class="question-number">Question {{ currentIndex + 1 }}/{{ questions.length }}</div>
+            <div class="question-text">{{ currentQuestion.question_text }}</div>
+
+            <div class="sentence-container">
+              <div class="sentence" [innerHTML]="formatSentence(currentQuestion.sentence)"></div>
+              <div class="translation">{{ currentQuestion.translation }}</div>
+            </div>
+
+            <div class="answer-container">
+              <input
+                type="text"
+                class="answer-input"
+                [(ngModel)]="userAnswer"
+                [disabled]="!quizStarted"
+                (keyup.enter)="checkAnswer()"
+                [class.correct-answer]="isCorrect === true"
+                [class.incorrect-answer]="isCorrect === false"
+                placeholder="Type your answer..."
+                #answerInput
+              >
+              <button class="check-button" [disabled]="!quizStarted || !userAnswer" (click)="checkAnswer()">Check</button>
+            </div>
+
+            <div class="feedback-message" *ngIf="feedbackMessage">
+              {{ feedbackMessage }}
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button class="nav-button" [disabled]="currentIndex === 0" (click)="previousQuestion()">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-button" [disabled]="currentIndex === questions.length - 1" (click)="nextQuestion()">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review Mode -->
+      <div class="review-container" *ngIf="reviewMode">
+        <div class="review-header">
+          <h2>Review Mode</h2>
+          <div class="review-summary">
+            <div class="summary-item correct">
+              <span class="summary-count">{{ correctAnswers }}</span>
+              <span class="summary-label">Correct</span>
+            </div>
+            <div class="summary-item incorrect">
+              <span class="summary-count">{{ totalQuestions - correctAnswers }}</span>
+              <span class="summary-label">Incorrect</span>
+            </div>
+          </div>
+          <button class="back-button" (click)="toggleReviewMode()">
+            <i class="fas fa-arrow-left"></i> Back to Quiz
+          </button>
+        </div>
+
+        <div class="review-list">
+          <div
+            *ngFor="let answer of userAnswers; let i = index"
+            class="review-item"
+            [class.correct]="answer.isCorrect"
+            [class.incorrect]="!answer.isCorrect"
+          >
+            <div class="review-number">{{ i + 1 }}</div>
+            <div class="review-content">
+              <div class="review-sentence" [innerHTML]="formatSentence(questions[i].sentence)"></div>
+              <div class="review-translation">{{ questions[i].translation }}</div>
+              <div class="review-answers">
+                <div class="user-answer">
+                  <span class="answer-label">Your answer:</span>
+                  <span class="answer-text">{{ answer.answer || 'No answer' }}</span>
+                </div>
+                <div class="correct-answer">
+                  <span class="answer-label">Correct answer:</span>
+                  <span class="answer-text">{{ questions[i].correct_answer }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Audio elements for feedback sounds -->
+<audio #correctSound src="assets/sounds/correct.mp3" preload="auto"></audio>
+<audio #incorrectSound src="assets/sounds/incorrect.mp3" preload="auto"></audio>

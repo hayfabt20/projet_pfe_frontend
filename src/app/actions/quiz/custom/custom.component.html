@@ -1,0 +1,174 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+          <i class="menu-icon"></i>
+        </button>
+
+        <i class="fas fa-headphones"></i>
+        <div class="quiz-title">Custom Quiz</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button" title="Statistiques">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+          <i class="fas fa-book-open"></i>
+        </button>
+        <div class="score-display" *ngIf="quizStarted">
+          Score: {{ score }}/{{ quizItems.length }}
+        </div>
+        <div class="timer" *ngIf="quizStarted">
+          {{ formatTime(timer) }}
+        </div>
+        <button class="icon-button" title="Profil">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Quiz Start Screen -->
+      <div class="quiz-start" *ngIf="!quizStarted && !reviewMode">
+        <h2>Welcome to Custom Quiz</h2>
+        <p>Identify the German words that match the pictures</p>
+        <button class="start-button" (click)="startQuiz()">
+          <i class="fas fa-play"></i> Start
+        </button>
+      </div>
+
+      <!-- Quiz Content -->
+      <div class="quiz-container" *ngIf="quizStarted && !reviewMode">
+        <div class="quiz-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width]="(currentIndex + 1) / quizItems.length * 100 + '%'"></div>
+          </div>
+          <div class="progress-text">{{ currentIndex + 1 }} / {{ quizItems.length }}</div>
+        </div>
+
+        <div class="quiz-card" [class.correct]="isCorrect" [class.incorrect]="isIncorrect">
+          <div class="image-container">
+            <img [src]="currentItem.imageUrl" [alt]="currentItem.imageAlt" class="quiz-image">
+          </div>
+
+          <div class="answer-container">
+            <input
+              type="text"
+              class="answer-input"
+              [(ngModel)]="userAnswer"
+              (keyup.enter)="checkAnswer()"
+              [class.correct-answer]="isCorrect"
+              [class.incorrect-answer]="isIncorrect"
+              placeholder="Type the word in German..."
+              [disabled]="currentItem.answered"
+              #answerInput
+            >
+
+            <button class="check-button" (click)="checkAnswer()" *ngIf="!currentItem.answered">
+              <i class="fas fa-check"></i> Check
+            </button>
+
+            <div class="feedback-message" *ngIf="currentItem.answered">
+              <div *ngIf="currentItem.isCorrect" class="correct-message">
+                <i class="fas fa-check-circle"></i> Correct!
+              </div>
+              <div *ngIf="!currentItem.isCorrect" class="incorrect-message">
+                <i class="fas fa-times-circle"></i> Incorrect! The correct answer is : {{ currentItem.germanWord }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="nav-button" [disabled]="currentIndex === 0" (click)="goToPrevious()">
+            <i class="fas fa-arrow-left"></i> Previous
+          </button>
+          <button class="nav-button" [disabled]="currentIndex === quizItems.length - 1" (click)="goToNext()">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <button class="finish-button" *ngIf="allAnswered()" (click)="finishQuiz()">
+          <i class="fas fa-flag-checkered"></i> Finish the Quiz
+        </button>
+      </div>
+
+      <!-- Review Mode -->
+      <div class="review-container" *ngIf="reviewMode">
+        <h2>Review Mode </h2>
+        <button class="review-button" (click)="toggleReviewMode()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <div class="review-stats">
+          <div class="stat-item">
+            <div class="stat-value">{{ score }}</div>
+            <div class="stat-label">Correct Answer</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ quizItems.length - score }}</div>
+            <div class="stat-label">Incorrect Answer</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ formatTime(finalTime) }}</div>
+            <div class="stat-label">Total time</div>
+          </div>
+        </div>
+
+        <div class="review-list">
+          <div *ngFor="let item of quizItems; let i = index" class="review-item" [class.correct]="item.isCorrect" [class.incorrect]="!item.isCorrect">
+            <div class="review-number">{{ i + 1 }}</div>
+            <div class="review-image">
+              <img [src]="item.imageUrl" [alt]="item.imageAlt">
+            </div>
+            <div class="review-details">
+              <div class="review-word">{{ item.germanWord }}</div>
+              <div class="review-answer" *ngIf="!item.isCorrect">
+                Your Answer: <span>{{ item.userAnswer || 'No Answer' }}</span>
+              </div>
+            </div>
+            <div class="review-status">
+              <i class="fas fa-check-circle" *ngIf="item.isCorrect"></i>
+              <i class="fas fa-times-circle" *ngIf="!item.isCorrect"></i>
+            </div>
+          </div>
+        </div>
+
+        <button class="restart-button" (click)="restartQuiz()">
+          <i class="fas fa-redo"></i> Restart the Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

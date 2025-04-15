@@ -1,0 +1,133 @@
+.home-page {
+  background-color:  #fffff2;
+}
+.quiz-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Times New Roman', serif;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 6rem 0 2rem 0;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-family: 'Times New Roman Bold';
+  background: linear-gradient(90deg,
+    #ff00cc, #3333ff, #00ccff, #ff00cc);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: logoGalaxy 8s ease infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+.icon {
+  margin-right: 12px;
+  color: #6e45e2; /* Couleur violette pour correspondre au thème */
+  font-size: 1.2em;
+}
+
+
+/* Grille des quiz */
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Cartes de quiz */
+.quiz-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ddd6fe, #fce7f3);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color:  #6e45e2;
+  font-family: 'Times New Roman Bold';
+  font-weight: bold;
+}
+
+.quiz-card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Boutons */
+.quiz-button {
+  background: linear-gradient(135deg, #a2d9ff, #3498db);
+
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quiz-button:hover {
+  background: linear-gradient(135deg, #2980b9, #1a252f);
+  transform: scale(1.05);
+}
+
+/* Séparateur */
+.divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: #eee;
+  margin: 1rem 0;
+}
+
+/* Cartes avec version */
+.version-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.version-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #e74c3c;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 0 12px 0 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .quiz-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .divider {
+    margin: 0.5rem 0;
+  }
+}

@@ -1,0 +1,259 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Times New Roman', serif;
+  background-color: #fffff2;
+  min-height: 100vh;
+}
+
+/* App Container */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fffff2;
+  position: relative;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(90deg, #b19cd9, #ffb6c1);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.app-logo {
+  font-size: 30px;
+  font-weight: bold;
+  white-space: nowrap;
+  font-family: 'Comic Sans MS Bold Italic';
+  margin-right: auto;
+
+  /* Nouvel effet galaxy */
+  background: linear-gradient(90deg,
+    #ff00cc, #3333ff, #00ccff, #ff00cc);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: logoGalaxy 8s ease infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+@keyframes logoGalaxy {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.sidebar-menu {
+  padding: 20px 0;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+}
+
+.sidebar-menu li {
+  margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.sidebar-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+.sidebar-menu li.active a {
+  background-color: #f0e6ff;
+  color: #6e45e2;
+  font-weight: 500;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+  background-color: #fffff2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Feedback Container */
+.feedback-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+/* Feedback Card */
+.feedback-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: 600px;
+  max-width: 90%;
+}
+
+.feedback-title {
+  font-family: 'Times New Roman', serif;
+  color: #7b8ab8;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.feedback-input {
+  font-family: 'Times New Roman', serif;
+  width: 100%;
+  height: 180px;
+  padding: 16px;
+  border: 1px solid #dce1f0;
+  border-radius: 8px;
+  background-color: #f7f9fc;
+  resize: none;
+  font-size: 16px;
+  color: #4a5568;
+  margin-bottom: 20px;
+}
+
+.feedback-input::placeholder {
+  color: #a0aec0;
+}
+
+.feedback-input:focus {
+  outline: none;
+  border-color: #a0aec0;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedback-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  border: none;
+  background-color: #f7f9fc;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.feedback-btn i {
+  font-size: 22px;
+  color: #7b8ab8;
+}
+
+.feedback-btn.happy, .feedback-btn.sad {
+  margin-right: 8px;
+}
+
+.feedback-btn.send {
+  margin-left: auto;
+  width: 140px;
+}
+
+.feedback-btn:hover {
+  background-color: #e9edf7;
+}
+
+.feedback-btn:active {
+  background-color: #dce1f0;
+}
+
+/* Icons */
+.flag-icon, .menu-icon, .book-icon, .message-icon, .info-icon,
+.stats-icon, .revision-icon, .score-icon, .profile-icon {
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.menu-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>');
+}
+
+.book-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>');
+}
+
+.message-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>');
+}
+
+.info-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>');
+}
+
+.stats-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>');
+}
+
+/* Suppression du :host qui peut causer des problèmes */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

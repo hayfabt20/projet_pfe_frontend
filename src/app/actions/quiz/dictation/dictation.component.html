@@ -1,0 +1,157 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+          <i class="menu-icon"></i>
+        </button>
+        <i class="fas fa-headphones"></i>
+        <div class="quiz-title">Dictation Quiz</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button" title="Statistiques">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+          <i class="fas fa-book-open"></i>
+        </button>
+        <button class="icon-button" title="Score">
+          <i class="fas fa-fire"></i>
+          <span *ngIf="score !== null" class="score-badge">{{ score }}/{{ dictationItems.length }}</span>
+        </button>
+        <button class="icon-button" title="Profil">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Mode Quiz -->
+      <div class="quiz-container" *ngIf="!reviewMode">
+        <div class="card">
+          <div class="card-header">
+            <div class="timer">{{ formatTime(timer) }}</div>
+            <div class="progress-indicator">{{ currentIndex + 1 }}/{{ dictationItems.length }}</div>
+          </div>
+
+          <div class="card-body">
+            <div class="dictation-controls">
+              <button class="play-button" (click)="playDictation()" [disabled]="isPlaying">
+                <i class="fas fa-volume-up"></i> Listen
+              </button>
+              <button class="start-button" (click)="startQuiz()" *ngIf="!quizStarted">
+                <i class="fas fa-play"></i> Start
+              </button>
+            </div>
+
+            <div class="input-container" [class.correct]="isCorrect === true" [class.incorrect]="isCorrect === false">
+              <input
+                type="text"
+                [(ngModel)]="userInput"
+                [placeholder]="quizStarted ? '
+                    Type what you hear...' : 'Click Start to begin'"
+                [disabled]="!quizStarted || isChecking"
+                (keyup.enter)="checkAnswer()"
+                #inputField
+              >
+              <button class="check-button" (click)="checkAnswer()" [disabled]="!quizStarted || !userInput">
+                <i class="fas fa-check"></i> Check
+              </button>
+            </div>
+
+            <div class="feedback-message" *ngIf="feedbackMessage">
+              {{ feedbackMessage }}
+            </div>
+
+            <div class="correct-answer" *ngIf="showCorrectAnswer">
+              <strong>Correct Answer:</strong> {{ currentDictation.text }}
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="nav-button" (click)="previousCard()" [disabled]="currentIndex === 0">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-button" (click)="nextCard()" [disabled]="currentIndex === dictationItems.length - 1">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode Révision -->
+      <div class="review-container" *ngIf="reviewMode">
+        <h2>Summary of responses</h2>
+
+        <div class="review-stats">
+          <div class="stat-item">
+            <span class="stat-label">Score:</span>
+            <span class="stat-value">{{ score }}/{{ dictationItems.length }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total time:</span>
+            <span class="stat-value">{{ formatTime(totalTime) }}</span>
+          </div>
+        </div>
+
+        <div class="review-list">
+          <div
+            *ngFor="let item of userAnswers; let i = index"
+            class="review-item"
+            [class.correct]="item.isCorrect"
+            [class.incorrect]="!item.isCorrect"
+          >
+            <div class="review-number">{{ i + 1 }}</div>
+            <div class="review-content">
+              <div class="review-expected">
+                <strong>
+                  Dictated sentence:</strong> {{ item.expected }}
+              </div>
+              <div class="review-answer">
+                <strong>Your Answer:</strong> {{ item.answer }}
+              </div>
+            </div>
+            <div class="review-status">
+              <i class="fas" [class.fa-check]="item.isCorrect" [class.fa-times]="!item.isCorrect"></i>
+            </div>
+          </div>
+        </div>
+
+        <button class="return-button" (click)="toggleReviewMode()">
+          <i class="fas fa-arrow-left"></i> Return to quiz
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

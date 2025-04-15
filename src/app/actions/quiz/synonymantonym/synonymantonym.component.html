@@ -1,0 +1,238 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+          <i class="menu-icon"></i>
+        </button>
+        <i class="fas fa-exchange-alt"></i>
+        <div class="quiz-title">Synonym-Antonym Quiz</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button" title="Statistiques">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+          <i class="fas fa-book-open"></i>
+        </button>
+        <div class="score-display" *ngIf="quizStarted || quizCompleted">
+          <span>Score: {{ score }}/{{ quizWords.length }}</span>
+        </div>
+        <button class="icon-button" title="Profil">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Quiz Content -->
+    <div class="content">
+      <!-- Welcome Screen (shown before quiz starts) -->
+      <div class="welcome-screen" *ngIf="!quizStarted && !quizCompleted && !reviewMode">
+        <h2>Welcome to Synonym-Antonym Quiz</h2>
+        <p>Find German synonyms and antonyms for the given English words.</p>
+        <button class="start-button" (click)="startQuiz()">
+          <i class="fas fa-play"></i> Start
+        </button>
+      </div>
+
+      <!-- Quiz Area (shown during quiz) -->
+      <div class="quiz-area" *ngIf="quizStarted && !quizCompleted && !reviewMode">
+        <div class="timer-container">
+          <div class="timer">{{ formatTime(timer) }}</div>
+        </div>
+
+        <div class="quiz-card">
+          <div class="word-container">
+            <h2>{{ currentWord.english }}</h2>
+            <p class="word-hint">Find the synonym and antonym in German</p>
+          </div>
+
+          <div class="input-container">
+            <div class="input-group">
+              <label for="synonym">Synonym:</label>
+              <input
+                type="text"
+                id="synonym"
+                [(ngModel)]="userAnswers[currentIndex].synonym"
+                [class.correct]="userAnswers[currentIndex].synonymCorrect === true"
+                [class.incorrect]="userAnswers[currentIndex].synonymCorrect === false"
+                (keyup.enter)="checkAnswer()"
+                [disabled]="userAnswers[currentIndex].checked"
+                placeholder="Enter the German synonym"
+              >
+            </div>
+
+            <div class="input-group">
+              <label for="antonym">Antonym:</label>
+              <input
+                type="text"
+                id="antonym"
+                [(ngModel)]="userAnswers[currentIndex].antonym"
+                [class.correct]="userAnswers[currentIndex].antonymCorrect === true"
+                [class.incorrect]="userAnswers[currentIndex].antonymCorrect === false"
+                (keyup.enter)="checkAnswer()"
+                [disabled]="userAnswers[currentIndex].checked"
+                placeholder="Enter the German antonym"
+              >
+            </div>
+          </div>
+
+          <div class="button-container">
+            <button class="check-button" (click)="checkAnswer()" [disabled]="userAnswers[currentIndex].checked">
+             Check
+            </button>
+
+            <div class="feedback-message" *ngIf="userAnswers[currentIndex].checked">
+              <div *ngIf="userAnswers[currentIndex].synonymCorrect && userAnswers[currentIndex].antonymCorrect" class="correct-message">
+                Perfect! Both answers are correct.
+              </div>
+              <div *ngIf="!userAnswers[currentIndex].synonymCorrect || !userAnswers[currentIndex].antonymCorrect" class="incorrect-message">
+                <div *ngIf="!userAnswers[currentIndex].synonymCorrect">
+                  Synonym correct: {{ currentWord.synonym }}
+                </div>
+                <div *ngIf="!userAnswers[currentIndex].antonymCorrect">
+                  Antonym correct: {{ currentWord.antonym }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-container">
+          <button class="nav-button" (click)="previousWord()" [disabled]="currentIndex === 0">
+            <i class="fas fa-arrow-left"></i> Previous
+          </button>
+          <div class="progress-indicator">
+            {{ currentIndex + 1 }} / {{ quizWords.length }}
+          </div>
+          <button class="nav-button" (click)="nextWord()" [disabled]="currentIndex === quizWords.length - 1 || !userAnswers[currentIndex].checked">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen (shown after quiz completion) -->
+      <div class="results-screen" *ngIf="quizCompleted && !reviewMode">
+        <h2>Quiz Completed!</h2>
+        <div class="results-summary">
+          <div class="score-circle">
+            <div class="score-number">{{ score }}</div>
+            <div class="score-total">/ {{ quizWords.length }}</div>
+          </div>
+          <div class="time-taken">
+            <i class="fas fa-clock"></i> Time: {{ formatTime(totalTime) }}
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="action-button" (click)="restartQuiz()">
+            <i class="fas fa-redo"></i> Restart
+          </button>
+          <button class="action-button" (click)="toggleReviewMode()">
+            <i class="fas fa-book-open"></i>Review Mode
+          </button>
+        </div>
+      </div>
+
+      <!-- Review Mode -->
+      <div class="review-mode" *ngIf="reviewMode">
+        <h2>Review Mode</h2>
+        <div class="review-controls">
+          <button class="review-button" (click)="toggleReviewMode()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <div class="review-filter">
+            <button
+              class="filter-button"
+              [class.active]="reviewFilter === 'all'"
+              (click)="setReviewFilter('all')">
+              All
+            </button>
+            <button
+              class="filter-button"
+              [class.active]="reviewFilter === 'correct'"
+              (click)="setReviewFilter('correct')">
+              Correct
+            </button>
+            <button
+              class="filter-button"
+              [class.active]="reviewFilter === 'incorrect'"
+              (click)="setReviewFilter('incorrect')">
+              Incorrect
+            </button>
+          </div>
+        </div>
+
+        <div class="review-cards">
+          <div
+            class="review-card"
+            *ngFor="let answer of filteredReviewAnswers; let i = index"
+            [class.correct-card]="answer.synonymCorrect && answer.antonymCorrect"
+            [class.incorrect-card]="!answer.synonymCorrect || !answer.antonymCorrect">
+            <div class="review-word">{{ quizWords[answer.wordIndex].english }}</div>
+
+            <div class="review-answers">
+              <div class="review-answer">
+                <span class="answer-label">Synonym:</span>
+                <div class="answer-content">
+                  <span class="user-answer" [class.correct-text]="answer.synonymCorrect" [class.incorrect-text]="!answer.synonymCorrect">
+                    {{ answer.synonym || '(no answer)' }}
+                  </span>
+                  <span class="correct-answer" *ngIf="!answer.synonymCorrect">
+                    Correct: {{ quizWords[answer.wordIndex].synonym }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="review-answer">
+                <span class="answer-label">Antonym:</span>
+                <div class="answer-content">
+                  <span class="user-answer" [class.correct-text]="answer.antonymCorrect" [class.incorrect-text]="!answer.antonymCorrect">
+                    {{ answer.antonym || '(no answer)' }}
+                  </span>
+                  <span class="correct-answer" *ngIf="!answer.antonymCorrect">
+                    Correct: {{ quizWords[answer.wordIndex].antonym }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Audio elements for feedback sounds -->
+<audio id="correct-sound" src="assets/sounds/correct.mp3" preload="auto"></audio>
+<audio id="incorrect-sound" src="assets/sounds/incorrect.mp3" preload="auto"></audio>

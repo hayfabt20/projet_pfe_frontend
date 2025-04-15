@@ -1,0 +1,146 @@
+<div class="app-container" [class.sidebar-open]="sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <span>LingoMate</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active">
+          <a href="quiz">
+            <i class="book-icon"></i>
+            <span>Quiz</span>
+          </a>
+        </li>
+        <li>
+          <a href="feedback">
+            <i class="message-icon"></i>
+            <span>Feedback</span>
+          </a>
+        </li>
+        <li>
+          <a href="about">
+            <i class="info-icon"></i>
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="main-content">
+
+  <header class="app-header">
+    <div class="header-left">
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="menu-icon"></i>
+      </button>
+      <i class="fas fa-clone"></i>
+      <div class="quiz-title">Challenge Quiz</div>
+      <div class="language-indicator">
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-button" title="Statistiques">
+        <i class="fas fa-chart-bar"></i>
+      </button>
+      <button class="icon-button" title="Mode Révision" (click)="toggleReviewMode()">
+        <i class="fas fa-book-open"></i>
+      </button>
+      <button class="icon-button" title="Score">
+        <i class="fas fa-fire"></i>
+      </button>
+      <button class="icon-button" title="Profil">
+        <i class="fas fa-user-circle"></i>
+      </button>
+    </div>
+  </header>
+  <div class="content">
+    <div class="quiz-info-container">
+      <div class="quiz-info">
+        <div class="timer">
+          <span class="timer-icon">⏱️</span>
+          <span class="timer-count">{{ formatTime(remainingTime) }}</span>
+        </div>
+        <div class="progress">Question {{ currentQuestionIndex + 1 }}/{{ questions.length }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="!quizCompleted && !reviewMode" id="quiz-content">
+      <div class="question-box">
+        <div class="question-container">
+          <div class="question-label">English question:</div>
+          <div class="question">{{ currentQuestion.englishQuestion }}</div>
+        </div>
+
+        <div class="answer-container">
+          <label for="answer" class="answer-label">Your answer in German:</label>
+          <input
+            type="text"
+            id="answer"
+            class="answer-input"
+            [ngClass]="{'correct-answer': answerState === 'correct', 'incorrect-answer': answerState === 'incorrect'}"
+            [(ngModel)]="userAnswer"
+            placeholder="Type your answer here..."
+            autocomplete="off"
+            (keyup.enter)="checkAnswer()">
+        </div>
+
+        <div class="buttons-container">
+          <button class="btn btn-nav" [disabled]="currentQuestionIndex === 0" (click)="previousQuestion()">Previous</button>
+          <button class="btn btn-submit" (click)="checkAnswer()">Validate</button>
+          <button class="btn btn-nav" [disabled]="currentQuestionIndex === questions.length - 1" (click)="nextQuestion()">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="reviewMode" id="review-content">
+      <div class="review-header">
+        <h2>Review Mode</h2>
+        <p>Review the questions you answered incorrectly</p>
+      </div>
+
+      <div *ngIf="incorrectAnswers.length > 0">
+        <div class="question-box">
+          <div class="question-container">
+            <div class="question-label">English question :</div>
+            <div class="question">{{ incorrectAnswers[reviewIndex].englishQuestion }}</div>
+          </div>
+
+          <div class="answer-container">
+            <div class="answer-label">Your answer:</div>
+            <div class="incorrect-user-answer">{{ incorrectAnswers[reviewIndex].userAnswer }}</div>
+
+            <div class="answer-label correct-label">Correct answer :</div>
+            <div class="correct-answer-text">{{ incorrectAnswers[reviewIndex].germanAnswer }}</div>
+          </div>
+
+          <div class="buttons-container">
+            <button class="btn btn-nav" [disabled]="reviewIndex === 0" (click)="previousReviewQuestion()">Previous</button>
+            <button class="btn btn-nav" [disabled]="reviewIndex === incorrectAnswers.length - 1" (click)="nextReviewQuestion()">Next</button>
+          </div>
+        </div>
+
+        <button class="btn btn-return" (click)="exitReviewMode()">Back to results</button>
+      </div>
+
+      <div *ngIf="incorrectAnswers.length === 0" class="no-incorrect">
+        <p>Congratulations! You have no incorrect answers to review.</p>
+        <button class="btn btn-return" (click)="exitReviewMode()">Back to results</button>
+      </div>
+    </div>
+
+    <div *ngIf="quizCompleted && !reviewMode" id="result" class="result-container">
+      <h2>Challenge completed!</h2>
+      <div class="score">{{ score }}/{{ questions.length }}</div>
+      <p class="feedback">{{ getFeedbackMessage() }}</p>
+
+      <div class="result-buttons">
+        <button *ngIf="incorrectAnswers.length > 0" class="btn btn-review" (click)="startReviewMode()">Review Mode </button>
+        <button class="btn btn-restart" (click)="restartQuiz()">Start again</button>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
