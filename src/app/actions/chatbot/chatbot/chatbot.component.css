@@ -1,0 +1,221 @@
+.ai-chat-widget {
+  --ai-primary: #7c3aed;
+  --ai-primary-light: #8b5cf6;
+  --ai-primary-dark: #6d28d9;
+  --ai-secondary: #ec4899;
+  --ai-bg-color: #fffff2;
+  --ai-text-color: #1e293b;
+  --ai-border-radius: 12px;
+  --ai-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+  --ai-transition: all 0.3s ease;
+
+  font-family: 'Times New Roman Bold';
+  background-color: var(--ai-bg-color);
+  color: var(--ai-text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.ai-chat-container {
+  width: 100%;
+  max-width: 1200px;
+ max-height: 1200px;
+  background: white;
+  border-radius: var(--ai-border-radius);
+  box-shadow: var(--ai-shadow);
+  overflow: visible;
+  padding: 40px;
+  margin: 40px 0;
+}
+
+.ai-chat-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+.ai-chat-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  padding: 0 20px;
+  background: linear-gradient(135deg, var(--ai-primary), var(--ai-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.ai-chat-subtitle {
+  color: #64748b;
+  font-size:  18px;
+  font-weight: 500;
+  padding: 0 20px;
+}
+
+.ai-chat-messages {
+  margin-bottom: 30px;
+}
+
+.ai-message {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.ai-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ai-primary), var(--ai-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.ai-message-content {
+  background-color: #f1f5f9;
+  padding: 15px;
+  border-radius: var(--ai-border-radius);
+  flex-grow: 1;
+  line-height: 1.5;
+}
+
+.ai-input-container {
+  position: relative;
+  margin-top: 20px;
+
+}
+
+.ai-input-field {
+  width: 93%;
+  padding: 16px 60px 16px 20px;
+  border: 2px solid transparent;
+  border-radius: var(--ai-border-radius);
+  background-color: #f1f5f9;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  transition: var(--ai-transition);
+  min-height: 60px;
+  font-family: 'Times New Roman Bold';
+}
+
+.ai-input-field:focus {
+  border-color: var(--ai-primary-light);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+}
+
+.ai-send-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ai-primary), var(--ai-secondary));
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--ai-transition);
+  outline: none;
+}
+
+.ai-send-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+
+.ai-send-button:active {
+  transform: scale(0.95);
+}
+
+/* Custom send icon using CSS */
+.ai-send-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+
+.ai-send-icon:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid white;
+  border-right: 2px solid white;
+  transform: rotate(45deg);
+}
+
+.ai-send-icon:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 20px;
+  height: 2px;
+  background-color: white;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.ai-input-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.ai-input-hint {
+  opacity: 0.8;
+}
+
+/* Shimmer effect on the input field */
+@keyframes ai-shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.ai-input-field:placeholder-shown {
+  background-image: linear-gradient(
+    90deg,
+    rgba(124, 58, 237, 0) 0%,
+    rgba(124, 58, 237, 0.05) 50%,
+    rgba(124, 58, 237, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: ai-shimmer 3s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .ai-chat-container {
+    padding: 30px  20px;
+    min-height: 550px;
+  }
+
+  .ai-chat-title {
+    font-size: 28px;
+  }
+
+  .ai-input-field {
+    padding: 14px 50px 14px 16px;
+  }
+}

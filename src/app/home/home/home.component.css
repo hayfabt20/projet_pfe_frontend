@@ -1,0 +1,339 @@
+.home-page {
+  background-color:  #fffff2;
+}
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 10%;
+  background-color:  #fffff2;
+  min-height: calc(100vh - 160px);
+  background-color: #fffff2;/* Ajusté pour la navbar et l'espace */
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+  text-align: left; /* Alignement à gauche */
+
+  h1 {
+    font-size: 3.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    font-family: 'Times New Roman Bold', serif; /* Police du logo */
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 30px;
+    font-weight: normal;
+    line-height: 1.5;
+    font-family: 'Times New Roman', serif;
+  }
+}
+
+.hero-image {
+  flex: 0 0 auto;
+  margin-left: 50px; /* Espace entre texte et image */
+}
+
+.round-image {
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border: 8px solid white;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 40px 5%;
+    min-height: auto;
+  }
+
+  .hero-content {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 100%;
+  }
+
+  .hero-image {
+    margin-left: 0;
+  }
+
+  .round-image {
+    width: 250px;
+    height: 250px;
+  }
+
+
+}
+/* Ajoutez ceci à votre fichier CSS */
+
+/* Features Section */
+.features-section {
+  padding: 80px 10%;
+  text-align: center;
+  background-color:  #fffff2;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Times New Roman Bold', serif;
+  font-weight: bold;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+  background-color:  #fffff2;
+}
+
+.feature-card {
+  padding: 30px;
+  border-radius: 12px;
+ background: linear-gradient(135deg, #ddd6fe, #fce7f3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feature-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 100px 10%;
+  text-align: center;
+  background-color:  #fffff2;
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+  font-family: 'Times New Roman Bold', serif;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+/* Boutons */
+.cta-button {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+}
+
+/* Footer (à adapter selon votre besoin) */
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 40px 10%;
+  text-align: center;
+}
+
+
+.video-container {
+  display: flex;
+  align-items: center;
+   /* Aligne tout à droite */
+  gap: 40px; /* Espace entre la vidéo et le texte */
+  padding: 40px;
+  justify-content: center;
+}
+
+.video-wrapper {
+  width: 450px;
+  height: 500px; /* Carré parfait */
+  overflow: hidden;
+  border-radius: 10px; /* Coins légèrement arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+.background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  justify-content: center;
+
+}
+
+.video-text {
+  max-width: 400px;
+}
+
+.video-text h2 {
+  font-size: 35px;
+  margin-bottom: 17px;
+  color: #333;
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 17px;
+  color: #666;
+  line-height: 1.5;
+  font-family: 'Times New Roman', serif;
+}
+/* Style de base minimaliste */
+/* Style de base */
+.lingomate-container {
+  font-family: 'Times New Roman', serif;
+   width: 100%;
+
+  padding: 40px 20px;
+  color: #333;
+  background-color: #fffff2;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lingomate-content {
+  display: flex;
+  flex: 1 ;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+
+
+
+.lingomate-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+
+
+.lingomate-sections {
+  display: flex;
+  gap: 60px; /* Espace entre les colonnes */
+  max-width: 70%;
+  justify-items: center;
+}
+
+.lingomate-section {
+  min-width: 160px;
+  justify-content: center;
+}
+
+.lingomate-section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  font-family: 'Times New Roman Bold', serif;
+  font-weight: bold;
+}
+
+.lingomate-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lingomate-section li {
+  margin-bottom: 12px;
+}
+
+.lingomate-section a {
+  color: #555;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.lingomate-section a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+.lingomate-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #666;
+}
+
+.lingomate-footer-links {
+  margin-top: 10px;
+}
+
+.lingomate-footer-links a {
+  margin: 0 10px;
+  color: #444;
+  text-decoration: none;
+}
+
+.lingomate-footer-links a:hover {
+  text-decoration: underline;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title, .cta-section h2 {
+    font-size: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

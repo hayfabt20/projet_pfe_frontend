@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%;
+  min-width: 320px; /* Largeur minimale */
+  overflow-x: hidden;
+  }
+body { margin: 0;  }
+@font-face {
+  font-family: 'Comic Sans MS Bold Italic';
+  src: local('Comic Sans MS Bold Italic'), local('TimesNewRoman-Bold');
+  font-weight: bold;
+}
